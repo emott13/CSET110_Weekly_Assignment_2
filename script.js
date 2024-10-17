@@ -29,6 +29,7 @@ for(let i=0; i < shopItemButton.length; i++){
         otherClone.getElementsByClassName('cart-item-title')[0].innerText = shopItemTitle;              //sets otherClone's title to target's title
         otherClone.getElementsByClassName('cart-price')[0].innerText = shopItemPrice;                   //sets otherClone's price to target's price
         resetRemoveButtons();                                                                           //calls function to update the eventListener to remove buttons
+        changeCartTotal();
     });
 };
 
@@ -40,6 +41,24 @@ function resetRemoveButtons(){                                                  
             let addClick = event.target;                                                                //element event came from
             let cartRowToRemove = addClick.parentElement.parentElement;                                 //parent of parent of target is the div.cart-row that the target event came from
             cartRowToRemove.remove();                                                                   //removes div
+            changeCartTotal();
         });
     };
+};
+
+function changeCartTotal(){
+    let cartRowArray = cartItems.getElementsByClassName('cart-row');                                    //defines variable as array of 'cart-row' elements
+    let cartTotal = 0;                                                                                  //defines total for loop
+    for(let i=0; i < cartRowArray.length; i++){
+        let count = cartRowArray[i];
+        let cartPrice = count.getElementsByClassName('cart-price')[0],
+        price = Number(cartPrice.innerText.replace('$', ''));                                           //converts cart item's price to number and removes $
+
+        let cartQuantityInput = count.getElementsByClassName('cart-quantity-input')[0],
+        quantity = cartQuantityInput.value;                                                             //defines variable as value from cart item
+
+        cartTotal = cartTotal + (price * quantity);                                                     //recalculates total for each loop
+    };
+    cartTotal = Math.round(cartTotal * 100)/100;                                                        //ensures total has two digits in decimal place for the cents
+    document.getElementsByClassName('cart-total-price')[0].innerText = '$' + cartTotal;                 //sets inner text to total and adds $ back in
 };
