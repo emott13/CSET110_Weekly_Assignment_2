@@ -26,6 +26,20 @@ for(let i=0; i < shopItemButton.length; i++){
         clone.getElementsByClassName('cart-item-image')[0].src = shopItemImg;                           //sets clone's image to target's image
         clone.getElementsByClassName('cart-item-title')[0].innerText = shopItemTitle;                   //sets clone's title to target's title
         clone.getElementsByClassName('cart-price')[0].innerText = shopItemPrice;                        //sets clone's price to target's price
+        resetRemoveButtons()                                                                            //calls function to update the eventListener to remove buttons
         }
     );
 };
+
+function resetRemoveButtons(){                                                                          //loop inside function allows it to be called after new items are added to cart, since otherwise eventListener would only work for the original buttons the page loaded with
+    let btnDanger = document.getElementsByClassName('btn-danger');                                      //defines variable as array of remove buttons
+    for(let i=0; i < btnDanger.length; i++){                                                            
+        let count = btnDanger[i];                                                                       //defines variable as current button
+        count.addEventListener('click', (event) => {                                                    
+            let addClick = event.target;                                                                //element event came from
+            let cartRowToRemove = addClick.parentElement.parentElement                                  //parent of parent of target is the div.cart-row that the target event came from
+            cartRowToRemove.remove()                                                                    //removes div
+        }
+        );
+    };
+}
