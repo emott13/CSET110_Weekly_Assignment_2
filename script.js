@@ -9,8 +9,16 @@ for(let i=0; i < shopItemButton.length; i++){
         shopItemTitle = shopItem.getElementsByClassName('shop-item-title')[0].innerText,                //defines variable as target's title (from parent of parent)
         shopItemPrice = shopItem.getElementsByClassName('shop-item-price')[0].innerText;                //defines variable as target's price (from parent of parent)
 
-        let cartItems = document.getElementsByClassName('cart-items')[0],                               //defines variable as
-        cartRow = cartItems.getElementsByClassName('cart-row')[0];                                      //defines variable as
+        let cartItems = document.getElementsByClassName('cart-items')[0],                               //defines variable as first index of 'cart-items' for appending later
+        cartRow = cartItems.getElementsByClassName('cart-row')[0];                                      //defines variable as first index of 'cart-row' for cloning later
+        
+        let cartTitles = cartItems.getElementsByClassName('cart-item-title');
+        for(let i=0; i < cartTitles.length; i++){                                                       //handles item already in cart
+            if(cartTitles[i].innerText == shopItemTitle){
+                alert('This item already exists in cart. Please change the quantity if you would like to add '); //used alert() so message shows in browser window
+                return;
+            }
+        }
 
         let clone = cartRow.cloneNode(true);                                                            //creates deep clone of 'cart-row' div
         cartItems.append(clone);                                                                        //appends clone to 'cart-items' div
