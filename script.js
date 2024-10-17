@@ -1,3 +1,9 @@
+resetRemoveButtons();
+
+let cartItems = document.getElementsByClassName('cart-items')[0];                                       //defines variable as first index of 'cart-items' for appending later
+let cartRow = cartItems.getElementsByClassName('cart-row')[0];                                          //defines variable as first index of 'cart-row' for cloning later
+let clone = cartRow.cloneNode(true);                                                                    //creates deep clone of 'cart-row' div
+
 let shopItemButton = document.getElementsByClassName('shop-item-button');
 for(let i=0; i < shopItemButton.length; i++){
     let count = shopItemButton[i];
@@ -9,9 +15,6 @@ for(let i=0; i < shopItemButton.length; i++){
         shopItemTitle = shopItem.getElementsByClassName('shop-item-title')[0].innerText,                //defines variable as target's title (from parent of parent)
         shopItemPrice = shopItem.getElementsByClassName('shop-item-price')[0].innerText;                //defines variable as target's price (from parent of parent)
 
-        let cartItems = document.getElementsByClassName('cart-items')[0],                               //defines variable as first index of 'cart-items' for appending later
-        cartRow = cartItems.getElementsByClassName('cart-row')[0];                                      //defines variable as first index of 'cart-row' for cloning later
-        
         let cartTitles = cartItems.getElementsByClassName('cart-item-title');
         for(let i=0; i < cartTitles.length; i++){                                                       //handles item already in cart
             if(cartTitles[i].innerText == shopItemTitle){
@@ -19,13 +22,12 @@ for(let i=0; i < shopItemButton.length; i++){
                 return;
             };
         };
-
-        let clone = cartRow.cloneNode(true);                                                            //creates deep clone of 'cart-row' div
-        cartItems.append(clone);                                                                        //appends clone to 'cart-items' div
+        let otherClone = clone.cloneNode(true)
+        cartItems.append(otherClone);                                                                   //appends otherClone to 'cart-items' div
         
-        clone.getElementsByClassName('cart-item-image')[0].src = shopItemImg;                           //sets clone's image to target's image
-        clone.getElementsByClassName('cart-item-title')[0].innerText = shopItemTitle;                   //sets clone's title to target's title
-        clone.getElementsByClassName('cart-price')[0].innerText = shopItemPrice;                        //sets clone's price to target's price
+        otherClone.getElementsByClassName('cart-item-image')[0].src = shopItemImg;                      //sets otherClone's image to target's image
+        otherClone.getElementsByClassName('cart-item-title')[0].innerText = shopItemTitle;              //sets otherClone's title to target's title
+        otherClone.getElementsByClassName('cart-price')[0].innerText = shopItemPrice;                   //sets otherClone's price to target's price
         resetRemoveButtons();                                                                           //calls function to update the eventListener to remove buttons
     });
 };
