@@ -1,7 +1,7 @@
 resetRemoveButtons();
 handleQuantityChange();
 
-let cartItems = document.getElementsByClassName('cart-items')[0];                                       //defines variable as first index of 'cart-items' for appending later
+let cartItems = document.getElementsByClassName('cart-items')[0];                                       
 let cartRow = cartItems.getElementsByClassName('cart-row')[0];                                          //defines variable as first index of 'cart-row' for cloning later
 let clone = cartRow.cloneNode(true);                                                                    //creates deep clone of 'cart-row' div
 
@@ -9,12 +9,12 @@ let shopItemButton = document.getElementsByClassName('shop-item-button');
 for(let i=0; i < shopItemButton.length; i++){
     let count = shopItemButton[i];
     count.addEventListener('click', (event) => {
-        let addClick = event.target;                                                                    //target is element where the event came from
+        let addClick = event.target;                                                                    
         let shopItem = addClick.parentElement.parentElement;                                            //parent of parent of 'shop-item-button' is 'shop-item'
 
-        let shopItemImg = shopItem.getElementsByClassName('shop-item-image')[0].src,                    //defines variable as target's img source (from parent of parent)
-        shopItemTitle = shopItem.getElementsByClassName('shop-item-title')[0].innerText,                //defines variable as target's title (from parent of parent)
-        shopItemPrice = shopItem.getElementsByClassName('shop-item-price')[0].innerText;                //defines variable as target's price (from parent of parent)
+        let shopItemImg = shopItem.getElementsByClassName('shop-item-image')[0].src,                    
+        shopItemTitle = shopItem.getElementsByClassName('shop-item-title')[0].innerText,                
+        shopItemPrice = shopItem.getElementsByClassName('shop-item-price')[0].innerText;                
 
         let cartTitles = cartItems.getElementsByClassName('cart-item-title');
         for(let i=0; i < cartTitles.length; i++){                                                       //handles item already in cart
@@ -26,43 +26,44 @@ for(let i=0; i < shopItemButton.length; i++){
         let otherClone = clone.cloneNode(true)
         cartItems.append(otherClone);                                                                   //appends otherClone to 'cart-items' div
         
-        otherClone.getElementsByClassName('cart-item-image')[0].src = shopItemImg;                      //sets otherClone's image to target's image
-        otherClone.getElementsByClassName('cart-item-title')[0].innerText = shopItemTitle;              //sets otherClone's title to target's title
-        otherClone.getElementsByClassName('cart-price')[0].innerText = shopItemPrice;                   //sets otherClone's price to target's price
+        otherClone.getElementsByClassName('cart-item-image')[0].src = shopItemImg;                      
+        otherClone.getElementsByClassName('cart-item-title')[0].innerText = shopItemTitle;              
+        otherClone.getElementsByClassName('cart-price')[0].innerText = shopItemPrice;
+
         resetRemoveButtons();                                                                           //calls function to update the eventListener to remove buttons
         changeCartTotal();
         handleQuantityChange();
     });
 };
 
-function resetRemoveButtons(){                                                                          //loop inside function allows it to be called after new items are added to cart, since otherwise eventListener would only work for the original buttons the page loaded with
-    let btnDanger = document.getElementsByClassName('btn-danger');                                      //defines variable as array of remove buttons
+function resetRemoveButtons(){                                                                          //loop inside function allows it to be called after new items are added to cart
+    let btnDanger = document.getElementsByClassName('btn-danger');                                      //since otherwise eventListener would only work for the original buttons the page loaded with
     for(let i=0; i < btnDanger.length; i++){                                                            
-        let count = btnDanger[i];                                                                       //defines variable as current button
+        let count = btnDanger[i];                                                                       
         count.addEventListener('click', (event) => {                                                    
-            let addClick = event.target;                                                                //element event came from
+            let addClick = event.target;                                                                
             let cartRowToRemove = addClick.parentElement.parentElement;                                 //parent of parent of target is the div.cart-row that the target event came from
-            cartRowToRemove.remove();                                                                   //removes div
+            cartRowToRemove.remove();                                                                   
             changeCartTotal();
         });
     };
 };
 
 function changeCartTotal(){
-    let cartRowArray = cartItems.getElementsByClassName('cart-row');                                    //defines variable as array of 'cart-row' elements
-    let cartTotal = 0;                                                                                  //defines total for loop
+    let cartRowArray = cartItems.getElementsByClassName('cart-row');                                    
+    let cartTotal = 0;                                                                                  
     for(let i=0; i < cartRowArray.length; i++){
         let count = cartRowArray[i];
         let cartPrice = count.getElementsByClassName('cart-price')[0],
-        price = Number(cartPrice.innerText.replace('$', ''));                                           //converts cart item's price to number and removes $
+        price = Number(cartPrice.innerText.replace('$', ''));                                           
 
         let cartQuantityInput = count.getElementsByClassName('cart-quantity-input')[0],
-        quantity = cartQuantityInput.value;                                                             //defines variable as value from cart item
+        quantity = cartQuantityInput.value;                                                             
 
-        cartTotal = cartTotal + (price * quantity);                                                     //recalculates total for each loop
+        cartTotal = cartTotal + (price * quantity);                                                     
     };
     cartTotal = Math.round(cartTotal * 100)/100;                                                        //ensures total has two digits in decimal place for the cents
-    document.getElementsByClassName('cart-total-price')[0].innerText = '$' + cartTotal;                 //sets inner text to total and adds $ back in
+    document.getElementsByClassName('cart-total-price')[0].innerText = '$' + cartTotal;
 };
 
 function handleQuantityChange(){
@@ -75,7 +76,7 @@ function handleQuantityChange(){
                 addChange.value = 1;
             }
             else{
-                addChange.value = parseInt(addChange.value)                                             //handles if value is changed to decimal
+                addChange.value = parseInt(addChange.value);                                            //handles if value is changed to decimal
             }
             changeCartTotal();
         });
