@@ -1,4 +1,5 @@
 resetRemoveButtons();
+handleQuantityChange();
 
 let cartItems = document.getElementsByClassName('cart-items')[0];                                       //defines variable as first index of 'cart-items' for appending later
 let cartRow = cartItems.getElementsByClassName('cart-row')[0];                                          //defines variable as first index of 'cart-row' for cloning later
@@ -30,6 +31,7 @@ for(let i=0; i < shopItemButton.length; i++){
         otherClone.getElementsByClassName('cart-price')[0].innerText = shopItemPrice;                   //sets otherClone's price to target's price
         resetRemoveButtons();                                                                           //calls function to update the eventListener to remove buttons
         changeCartTotal();
+        handleQuantityChange();
     });
 };
 
@@ -62,3 +64,28 @@ function changeCartTotal(){
     cartTotal = Math.round(cartTotal * 100)/100;                                                        //ensures total has two digits in decimal place for the cents
     document.getElementsByClassName('cart-total-price')[0].innerText = '$' + cartTotal;                 //sets inner text to total and adds $ back in
 };
+
+function handleQuantityChange(){
+    let cartQuantityArray = document.getElementsByClassName('cart-quantity-input');
+    for(let i=0; i < cartQuantityArray.length; i++){
+        let count = cartQuantityArray[i];
+        count.addEventListener('change', (event) => {
+            let addChange = event.target;
+            if(addChange.value <=0 || isNaN(addChange.value)){                                          //handles if value is changed to negative, zero, or NaN
+                addChange.value = 1;
+            }
+            else{
+                addChange.value = parseInt(addChange.value)                                             //handles if value is changed to decimal
+            }
+            changeCartTotal();
+        });
+    };
+};
+
+
+let btnPurchase = document.getElementsByClassName('btn-purchase')[0];
+btnPurchase.addEventListener('click', () => {                  
+    cartItems.innerHTML = '';
+    changeCartTotal();
+    alert('Thank you for your purchase!');
+});
